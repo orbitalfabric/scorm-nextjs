@@ -1,0 +1,96 @@
+{
+  "version": "3.32.20313.0",
+  "scenes": [
+    {
+      "title": "Pan"
+    },
+    {
+      "title": "6 "
+    },
+    {
+      "title": "Proteínas"
+    },
+    {
+      "title": "Verdura"
+    },
+    {
+      "title": "Salsa"
+    }
+  ],
+  "slides": [
+    {
+      "id": "5hBIJjSOUEz",
+      "title": "Unidad de sándwiches",
+      "scene_index": "1.1"
+    },
+    {
+      "id": "6ktJ2AibmPI",
+      "title": "Dónde",
+      "scene_index": "1.2"
+    },
+    {
+      "id": "6HYUQv6dYHR",
+      "title": "Panes",
+      "scene_index": "1.3"
+    },
+    {
+      "id": "6h5DqfzOhzt",
+      "title": "Unidad de sándwiches",
+      "scene_index": "2.1"
+    },
+    {
+      "id": "5XUb0N9Hyu6",
+      "title": "Unidad de sándwiches",
+      "scene_index": "3.1"
+    },
+    {
+      "id": "6ZYdzgb9FOf",
+      "title": "Carne",
+      "scene_index": "3.2"
+    },
+    {
+      "id": "5lSPy1rEYk4",
+      "title": "Carne",
+      "scene_index": "3.3"
+    },
+    {
+      "id": "69T9KUd3s8O",
+      "title": "Unidad de sándwiches",
+      "scene_index": "4.1"
+    },
+    {
+      "id": "6MtfswunN6P",
+      "title": "Verdura",
+      "scene_index": "4.2"
+    },
+    {
+      "id": "6qxgZ5qqXqj",
+      "title": "Verdura",
+      "scene_index": "4.3"
+    },
+    {
+      "id": "5wuRc0zMc8P",
+      "title": "Unidad de sándwiches",
+      "scene_index": "5.1"
+    },
+    {
+      "id": "6eCBoPIiVVd",
+      "title": "Salsa",
+      "scene_index": "5.2"
+    },
+    {
+      "id": "6TmPoQyPyQy",
+      "title": "Salsa",
+      "scene_index": "5.3"
+    }
+  ],
+  "player": {
+    "name": "unified",
+    "width": 1540,
+    "height": 838
+  },
+  "stage": {
+    "width": 1280,
+    "height": 720
+  }
+}

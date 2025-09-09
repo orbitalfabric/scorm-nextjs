@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Iframe</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+        iframe { width: 100%; height: 80vh; border: 2px solid #007bff; border-radius: 5px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Test de Iframe SCORM</h1>
+    <button onclick="loadSCORM()">Cargar SCORM</button>
+    
+    <iframe id="scormFrame" title="SCORM Content"></iframe>
+
+    <script>
+        function loadSCORM() {
+            const iframe = document.getElementById('scormFrame');
+            iframe.onload = function() {
+                console.log('Iframe cargado exitosamente');
+            };
+            iframe.onerror = function() {
+                console.error('Error al cargar el iframe');
+            };
+            iframe.src = '/MY_SCORMS/Covid-19_esla/scormdriver/indexAPI.html';
+            console.log('Iframe src establecido');
+        }
+    </script>
+</body>
+</html>

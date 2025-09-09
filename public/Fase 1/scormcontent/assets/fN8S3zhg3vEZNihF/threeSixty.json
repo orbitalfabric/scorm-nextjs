@@ -1,0 +1,39 @@
+{
+  "version": "3.33.20625.0",
+  "scenes": [
+    {
+      "title": "1"
+    }
+  ],
+  "slides": [
+    {
+      "id": "65jJrQFbevt",
+      "title": "Menú",
+      "scene_index": "1.1"
+    },
+    {
+      "id": "5u9FSvitUEL",
+      "title": "Fin",
+      "scene_index": "1.2"
+    },
+    {
+      "id": "60VWEcQRbE4",
+      "title": "ASMR",
+      "scene_index": "1.3"
+    },
+    {
+      "id": "6GTCqvL6CWk",
+      "title": "Samba",
+      "scene_index": "1.4"
+    }
+  ],
+  "player": {
+    "name": "unified",
+    "width": 1300,
+    "height": 740
+  },
+  "stage": {
+    "width": 1280,
+    "height": 720
+  }
+}

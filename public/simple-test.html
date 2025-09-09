@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple SCORM Test</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+        iframe { width: 100%; height: 80vh; border: 3px solid green; border-radius: 5px; }
+        .status { padding: 10px; background: #f0f0f0; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Test Simple de SCORM</h1>
+    
+    <div class="status">
+        <strong>Estado:</strong> <span id="status">Preparado</span>
+    </div>
+    
+    <iframe 
+        id="scormFrame" 
+        src="/MY_SCORMS/Covid-19_esla/scormdriver/indexAPI.html" 
+        title="SCORM Content"
+        onload="document.getElementById('status').textContent = 'Cargado exitosamente'"
+        onerror="document.getElementById('status').textContent = 'Error al cargar'">
+    </iframe>
+
+    <div style="margin-top: 20px;">
+        <button onclick="location.reload()">Recargar</button>
+    </div>
+</body>
+</html>
