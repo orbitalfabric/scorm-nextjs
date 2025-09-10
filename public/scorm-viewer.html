@@ -167,6 +167,19 @@
                     console.log('SCORM API: LMSSetValue called', element, value);
                     // Guardar en localStorage para persistencia
                     localStorage.setItem('scorm_' + element, value);
+                    
+                    // Actualizar progreso cuando se complete el curso
+                    if (element === "cmi.core.lesson_status" && value === "completed") {
+                        const scormType = getSCORMType();
+                        const progressData = JSON.parse(localStorage.getItem('scormProgress') || '{"covid":0,"fase1":0,"procesamiento":0}');
+                        
+                        // Marcar como 100% completado
+                        progressData[scormType] = 100;
+                        localStorage.setItem('scormProgress', JSON.stringify(progressData));
+                        
+                        console.log('Curso completado:', scormType, 'Progreso guardado:', progressData);
+                    }
+                    
                     return "true"; 
                 },
                 LMSGetLastError: function() { 

@@ -1,10 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SimpleSCORMViewer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState({
+    covid: 0,
+    fase1: 0,
+    procesamiento: 0
+  });
+
+  useEffect(() => {
+    // Cargar progreso desde localStorage
+    const savedProgress = localStorage.getItem('scormProgress');
+    if (savedProgress) {
+      setProgress(JSON.parse(savedProgress));
+    }
+  }, []);
 
   const loadSCORM = (scormType: string) => {
     setLoading(true);
@@ -60,6 +73,70 @@ export default function SimpleSCORMViewer() {
           SCORM Viewer Pro
         </h1>
         <p className="text-gray-600 text-lg">Plataforma moderna para visualización de contenido educativo</p>
+        
+        {/* Resumen de progreso */}
+        <div className="mt-6 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg w-full max-w-2xl">
+          <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center flex items-center justify-center">
+            <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            Progreso General de Cursos
+          </h3>
+          
+          <div className="space-y-4">
+            {/* Progreso COVID-19 */}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-blue-600 w-24">COVID-19</span>
+              <div className="flex-1 mx-4">
+                <div className="bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${progress.covid}%` }}
+                  ></div>
+                </div>
+              </div>
+              <span className="text-sm font-bold text-blue-600 w-8">{progress.covid}%</span>
+            </div>
+            
+            {/* Progreso Fase 1 */}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-green-600 w-24">Fase 1</span>
+              <div className="flex-1 mx-4">
+                <div className="bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${progress.fase1}%` }}
+                  ></div>
+                </div>
+              </div>
+              <span className="text-sm font-bold text-green-600 w-8">{progress.fase1}%</span>
+            </div>
+            
+            {/* Progreso Procesamiento */}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-purple-600 w-24">Procesamiento</span>
+              <div className="flex-1 mx-4">
+                <div className="bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-purple-500 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${progress.procesamiento}%` }}
+                  ></div>
+                </div>
+              </div>
+              <span className="text-sm font-bold text-purple-600 w-8">{progress.procesamiento}%</span>
+            </div>
+          </div>
+          
+          {/* Progreso total promedio */}
+          <div className="mt-6 pt-4 border-t border-gray-200">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-semibold text-gray-700">Progreso Total</span>
+              <span className="text-lg font-bold text-gray-800">
+                {Math.round((progress.covid + progress.fase1 + progress.procesamiento) / 3)}%
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Tarjeta principal con botones modernos */}
@@ -68,44 +145,89 @@ export default function SimpleSCORMViewer() {
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Cursos Disponibles</h2>
           
           <div className="space-y-5">
-            <button
-              onClick={() => loadSCORM('covid')}
-              className="w-full group relative overflow-hidden bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-5 px-8 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <span className="relative z-10 flex items-center justify-center">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                COVID-19 Training
-              </span>
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => loadSCORM('covid')}
+                className="w-full group relative overflow-hidden bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-5 px-8 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                <span className="relative z-10 flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  COVID-19 Training
+                </span>
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+              {progress.covid > 0 && (
+                <div className="absolute -bottom-2 left-0 right-0">
+                  <div className="bg-white rounded-full h-2 mx-2 shadow">
+                    <div 
+                      className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${progress.covid}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-xs text-gray-600 text-center mt-1">
+                    {progress.covid}% completado
+                  </div>
+                </div>
+              )}
+            </div>
 
-            <button
-              onClick={() => loadSCORM('fase1')}
-              className="w-full group relative overflow-hidden bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-5 px-8 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <span className="relative z-10 flex items-center justify-center">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                Fase 1 Program
-              </span>
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => loadSCORM('fase1')}
+                className="w-full group relative overflow-hidden bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-5 px-8 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                <span className="relative z-10 flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Fase 1 Program
+                </span>
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+              {progress.fase1 > 0 && (
+                <div className="absolute -bottom-2 left-0 right-0">
+                  <div className="bg-white rounded-full h-2 mx-2 shadow">
+                    <div 
+                      className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${progress.fase1}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-xs text-gray-600 text-center mt-1">
+                    {progress.fase1}% completado
+                  </div>
+                </div>
+              )}
+            </div>
 
-            <button
-              onClick={() => loadSCORM('procesamiento')}
-              className="w-full group relative overflow-hidden bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-5 px-8 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <span className="relative z-10 flex items-center justify-center">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                Order Processing
-              </span>
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => loadSCORM('procesamiento')}
+                className="w-full group relative overflow-hidden bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-5 px-8 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                <span className="relative z-10 flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  Order Processing
+                </span>
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+              {progress.procesamiento > 0 && (
+                <div className="absolute -bottom-2 left-0 right-0">
+                  <div className="bg-white rounded-full h-2 mx-2 shadow">
+                    <div 
+                      className="bg-purple-500 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${progress.procesamiento}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-xs text-gray-600 text-center mt-1">
+                    {progress.procesamiento}% completado
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -134,8 +256,19 @@ export default function SimpleSCORMViewer() {
         </div>
       </div>
 
-      {/* Footer moderno */}
+          {/* Footer moderno */}
       <div className="mt-12 text-center">
+        <div className="mb-4">
+          <button
+            onClick={() => window.location.href = '/test-progress.html'}
+            className="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors duration-200"
+          >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Simular Progreso
+          </button>
+        </div>
         <p className="text-gray-600 text-sm flex items-center justify-center">
           <svg className="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />

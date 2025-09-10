@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Progreso SCORM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .course {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .course h3 {
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .set-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .set-btn:hover {
+            background: #45a049;
+        }
+        
+        .reset-btn {
+            background: #f44336;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: #da190b;
+        }
+        
+        .back-btn {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .back-btn:hover {
+            background: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Simulador de Progreso SCORM</h1>
+        
+        <div class="course">
+            <h3>🦠 COVID-19 Training</h3>
+            <div class="slider-container">
+                <input type="range" id="covid-slider" min="0" max="100" value="0">
+                <span class="value" id="covid-value">0%</span>
+            </div>
+        </div>
+        
+        <div class="course">
+            <h3>🚀 Fase 1 Program</h3>
+            <div class="slider-container">
+                <input type="range" id="fase1-slider" min="0" max="100" value="0">
+                <span class="value" id="fase1-value">0%</span>
+            </div>
+        </div>
+        
+        <div class="course">
+            <h3>📦 Order Processing</h3>
+            <div class="slider-container">
+                <input type="range" id="procesamiento-slider" min="0" max="100" value="0">
+                <span class="value" id="procesamiento-value">0%</span>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button class="set-btn" onclick="setProgress()">💾 Establecer Progreso</button>
+            <button class="reset-btn" onclick="resetProgress()">🔄 Reiniciar Todo</button>
+            <button class="back-btn" onclick="goBack()">🏠 Volver al Inicio</button>
+        </div>
+    </div>
+
+    <script>
+        // Actualizar valores de los sliders
+        document.getElementById('covid-slider').addEventListener('input', function() {
+            document.getElementById('covid-value').textContent = this.value + '%';
+        });
+        
+        document.getElementById('fase1-slider').addEventListener('input', function() {
+            document.getElementById('fase1-value').textContent = this.value + '%';
+        });
+        
+        document.getElementById('procesamiento-slider').addEventListener('input', function() {
+            document.getElementById('procesamiento-value').textContent = this.value + '%';
+        });
+
+        // Establecer progreso
+        function setProgress() {
+            const progress = {
+                covid: parseInt(document.getElementById('covid-slider').value),
+                fase1: parseInt(document.getElementById('fase1-slider').value),
+                procesamiento: parseInt(document.getElementById('procesamiento-slider').value)
+            };
+            
+            localStorage.setItem('scormProgress', JSON.stringify(progress));
+            alert('✅ Progreso establecido correctamente!\n\nCOVID-19: ' + progress.covid + '%\nFase 1: ' + progress.fase1 + '%\nProcesamiento: ' + progress.procesamiento + '%');
+        }
+
+        // Reiniciar progreso
+        function resetProgress() {
+            localStorage.removeItem('scormProgress');
+            document.getElementById('covid-slider').value = 0;
+            document.getElementById('fase1-slider').value = 0;
+            document.getElementById('procesamiento-slider').value = 0;
+            document.getElementById('covid-value').textContent = '0%';
+            document.getElementById('fase1-value').textContent = '0%';
+            document.getElementById('procesamiento-value').textContent = '0%';
+            alert('🔄 Progreso reiniciado a 0%');
+        }
+
+        // Volver al inicio
+        function goBack() {
+            window.location.href = '/';
+        }
+
+        // Cargar progreso actual al iniciar
+        window.addEventListener('load', function() {
+            const savedProgress = localStorage.getItem('scormProgress');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                document.getElementById('covid-slider').value = progress.covid;
+                document.getElementById('fase1-slider').value = progress.fase1;
+                document.getElementById('procesamiento-slider').value = progress.procesamiento;
+                document.getElementById('covid-value').textContent = progress.covid + '%';
+                document.getElementById('fase1-value').textContent = progress.fase1 + '%';
+                document.getElementById('procesamiento-value').textContent = progress.procesamiento + '%';
+            }
+        });
+    </script>
+</body>
+</html>
